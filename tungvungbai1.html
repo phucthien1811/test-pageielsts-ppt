@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Từ Vựng Chi Tiết - ZIM SKIBIDI</title>
+    <style>
+        /* --- Cài đặt Font chữ --- */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400&display=swap');
+        /* Font chuyên dụng cho IPA (tùy chọn, nếu trình duyệt hỗ trợ) */
+        @import url('https://fonts.googleapis.com/css2?family=Charis+SIL&display=swap');
+
+        /* --- Cài đặt chung --- */
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Giúp bo góc cho table */
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            background-color: #2c3e50;
+            color: #fff;
+            font-size: 28px;
+        }
+
+        /* --- Định dạng bảng --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            font-family: 'Roboto', sans-serif;
+            background-color: #34495e;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: left;
+            padding: 15px;
+        }
+
+        tbody td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top; /* Căn nội dung lên trên cùng của ô */
+        }
+
+        /* --- Hiệu ứng cho các dòng --- */
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+        
+        /* --- Định dạng cho các cột cụ thể --- */
+        .word {
+            font-weight: 700;
+            font-size: 18px;
+            color: #c0392b;
+        }
+        
+        .pos {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+
+        /*
+         ===========================================================
+         == PHẦN CSS CHO IPA ĐÃ ĐƯỢC CẬP NHẬT ĐỂ RÕ RÀNG HƠN ==
+         ===========================================================
+        */
+        .ipa {
+            /* Sử dụng các font chuyên dụng cho IPA để hiển thị rõ nhất. */
+            /* Trình duyệt sẽ tự động chọn font đầu tiên nó tìm thấy trên máy của bạn. */
+            font-family: 'Charis SIL', 'Doulos SIL', 'Gentium Plus', 'Segoe UI', 'Lucida Sans Unicode', Arial, sans-serif;
+            
+            color: #d35400; /* Đổi sang màu cam đậm dễ nhận diện */
+            font-size: 18px; /* Tăng kích thước một chút */
+            font-weight: 400; /* Trọng lượng normal, không in đậm */
+            letter-spacing: 0.5px; /* Tăng khoảng cách giữa các ký tự */
+            background-color: #f2f4f5; /* Thêm nền màu kem nhạt để nổi bật */
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap; /* Đảm bảo phiên âm không bị xuống dòng */
+        }
+        
+        .meaning-list {
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+        .meaning-list strong {
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bảng Từ Vựng Chi Tiết (UK English)</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Từ Mới (New Word)</th>
+                    <th>Loại Từ</th>
+                    <th>Phiên Âm IPA (UK)</th>
+                    <th>Nghĩa Tiếng Việt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="word">artist</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈɑː.tɪst/</td>
+                    <td>nghệ sĩ</td>
+                </tr>
+                <tr>
+                    <td class="word">appointment</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/əˈpɔɪnt.mənt/</td>
+                    <td>cuộc hẹn</td>
+                </tr>
+                <tr>
+                    <td class="word">believe</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/bɪˈliːv/</td>
+                    <td class="meaning-list"><strong>1.</strong> Tin tưởng <br> <strong>2.</strong> Cho rằng, nghĩ rằng</td>
+                </tr>
+                <tr>
+                    <td class="word">blend</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/blend/</td>
+                    <td>hòa trộn, pha trộn</td>
+                </tr>
+                <tr>
+                    <td class="word">combination</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˌkɒm.bɪˈneɪ.ʃən/</td>
+                    <td class="meaning-list"><strong>1.</strong> Sự kết hợp, sự phối hợp <br> <strong>2.</strong> Dãy số (mở khóa)</td>
+                </tr>
+                <tr>
+                    <td class="word">complain</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/kəmˈpleɪn/</td>
+                    <td>phàn nàn</td>
+                </tr>
+                <tr>
+                    <td class="word">connect</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/kəˈnekt/</td>
+                    <td class="meaning-list"><strong>1.</strong> Kết nối (về vật lý, mạng) <br> <strong>2.</strong> Kết nối, thấu hiểu (về cảm xúc)</td>
+                </tr>
+                <tr>
+                    <td class="word">classical</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈklæs.ɪ.kəl/</td>
+                    <td>cổ điển (thường dùng cho âm nhạc, nghệ thuật)</td>
+                </tr>
+                <tr>
+                    <td class="word">create</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/kriˈeɪt/</td>
+                    <td class="meaning-list"><strong>1.</strong> Tạo ra, sáng tạo <br> <strong>2.</strong> Gây ra, dẫn đến</td>
+                </tr>
+                <tr>
+                    <td class="word">deny</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/dɪˈnaɪ/</td>
+                    <td>phủ nhận</td>
+                </tr>
+                <tr>
+                    <td class="word">deliver</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/dɪˈlɪv.ər/</td>
+                    <td class="meaning-list"><strong>1.</strong> Giao, phân phát (hàng hóa, thư) <br> <strong>2.</strong> Phát biểu (bài diễn văn)</td>
+                </tr>
+                <tr>
+                    <td class="word">emotion</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ɪˈməʊ.ʃən/</td>
+                    <td>cảm xúc</td>
+                </tr>
+                <tr>
+                    <td class="word">energetic</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˌen.əˈdʒet.ɪk/</td>
+                    <td>tràn đầy năng lượng</td>
+                </tr>
+                <tr>
+                    <td class="word">frequently</td>
+                    <td class="pos">(adv)</td>
+                    <td class="ipa">/ˈfriː.kwənt.li/</td>
+                    <td>một cách thường xuyên</td>
+                </tr>
+                <tr>
+                    <td class="word">fluent</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈfluː.ənt/</td>
+                    <td>trôi chảy, lưu loát</td>
+                </tr>
+                <tr>
+                    <td class="word">generation</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˌdʒen.əˈreɪ.ʃən/</td>
+                    <td class="meaning-list"><strong>1.</strong> Thế hệ <br> <strong>2.</strong> Sự tạo ra (năng lượng,...)</td>
+                </tr>
+                <tr>
+                    <td class="word">genre</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈʒɒn.rə/</td>
+                    <td>thể loại (nhạc, phim)</td>
+                </tr>
+                <tr>
+                    <td class="word">hardly ever</td>
+                    <td class="pos">(adv. phr.)</td>
+                    <td class="ipa">/ˈhɑːd.li ˈev.ər/</td>
+                    <td>hầu như không bao giờ</td>
+                </tr>
+                <tr>
+                    <td class="word">improve</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/ɪmˈpruːv/</td>
+                    <td>cải thiện, cải tiến</td>
+                </tr>
+                <tr>
+                    <td class="word">instrument</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈɪn.strə.mənt/</td>
+                    <td class="meaning-list"><strong>1.</strong> Nhạc cụ <br> <strong>2.</strong> Dụng cụ, công cụ</td>
+                </tr>
+                <tr>
+                    <td class="word">lyrics</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈlɪr.ɪks/</td>
+                    <td>lời bài hát</td>
+                </tr>
+                <tr>
+                    <td class="word">melody</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈmel.ə.di/</td>
+                    <td>giai điệu</td>
+                </tr>
+                <tr>
+                    <td class="word">outfit</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈaʊt.fɪt/</td>
+                    <td>trang phục, bộ đồ</td>
+                </tr>
+                <tr>
+                    <td class="word">personality</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˌpɜː.səˈnæl.ə.ti/</td>
+                    <td>tính cách, cá tính</td>
+                </tr>
+                <tr>
+                    <td class="word">popular</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈpɒp.jə.lər/</td>
+                    <td>phổ biến, nổi tiếng, được yêu thích</td>
+                </tr>
+                <tr>
+                    <td class="word">possess</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/pəˈzes/</td>
+                    <td class="meaning-list"><strong>1.</strong> Sở hữu <br> <strong>2.</strong> Có (một phẩm chất, kỹ năng)</td>
+                </tr>
+                <tr>
+                    <td class="word">produce</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/prəˈdʒuːs/</td>
+                    <td class="meaning-list"><strong>1.</strong> Sản xuất, chế tạo <br> <strong>2.</strong> Tạo ra, gây ra (kết quả) <br> <strong>3.</strong> Trình ra (giấy tờ)</td>
+                </tr>
+                <tr>
+                    <td class="word">province</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈprɒv.ɪns/</td>
+                    <td>tỉnh</td>
+                </tr>
+                <tr>
+                    <td class="word">punctual</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈpʌŋk.tʃu.əl/</td>
+                    <td>đúng giờ</td>
+                </tr>
+                <tr>
+                    <td class="word">rapper</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈræp.ər/</td>
+                    <td>rapper, người đọc rap</td>
+                </tr>
+                <tr>
+                    <td class="word">rarely</td>
+                    <td class="pos">(adv)</td>
+                    <td class="ipa">/ˈreə.li/</td>
+                    <td>hiếm khi</td>
+                </tr>
+                <tr>
+                    <td class="word">reflect</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/rɪˈflekt/</td>
+                    <td class="meaning-list"><strong>1.</strong> Phản chiếu (hình ảnh, ánh sáng) <br> <strong>2.</strong> Phản ánh (tình hình, tính cách) <br> <strong>3.</strong> Suy ngẫm (về một vấn đề)</td>
+                </tr>
+                <tr>
+                    <td class="word">release</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/rɪˈliːs/</td>
+                    <td class="meaning-list"><strong>1.</strong> Phát hành, ra mắt (sản phẩm) <br> <strong>2.</strong> Thả, phóng thích (người, động vật)</td>
+                </tr>
+                <tr>
+                    <td class="word">represent</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/ˌrep.rɪˈzent/</td>
+                    <td class="meaning-list"><strong>1.</strong> Đại diện cho <br> <strong>2.</strong> Tượng trưng cho</td>
+                </tr>
+                <tr>
+                    <td class="word">revolve</td>
+                    <td class="pos">(v)</td>
+                    <td class="ipa">/rɪˈvɒlv/</td>
+                    <td class="meaning-list"><strong>1.</strong> Xoay quanh (theo quỹ đạo) <br> <strong>2.</strong> Xoay quanh (một chủ đề chính)</td>
+                </tr>
+                <tr>
+                    <td class="word">seldom</td>
+                    <td class="pos">(adv)</td>
+                    <td class="ipa">/ˈsel.dəm/</td>
+                    <td>hiếm khi (tương tự rarely)</td>
+                </tr>
+                <tr>
+                    <td class="word">songwriter</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈsɒŋˌraɪ.tər/</td>
+                    <td>nhạc sĩ, người viết nhạc</td>
+                </tr>
+                <tr>
+                    <td class="word">stage name</td>
+                    <td class="pos">(n. phr.)</td>
+                    <td class="ipa">/ˈsteɪdʒ ˌneɪm/</td>
+                    <td>nghệ danh</td>
+                </tr>
+                <tr>
+                    <td class="word">stand out</td>
+                    <td class="pos">(phr. v)</td>
+                    <td class="ipa">/stænd aʊt/</td>
+                    <td>nổi bật</td>
+                </tr>
+                <tr>
+                    <td class="word">studio</td>
+                    <td class="pos">(n)</td>
+                    <td class="ipa">/ˈstjuː.di.əʊ/</td>
+                    <td>phòng thu</td>
+                </tr>
+                <tr>
+                    <td class="word">stylish</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈstaɪ.lɪʃ/</td>
+                    <td>phong cách, hợp thời trang</td>
+                </tr>
+                <tr>
+                    <td class="word">talented</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈtæl.ən.tɪd/</td>
+                    <td>tài năng, có tài</td>
+                </tr>
+                <tr>
+                    <td class="word">traditional</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/trəˈdɪʃ.ən.əl/</td>
+                    <td>thuộc về truyền thống</td>
+                </tr>
+                <tr>
+                    <td class="word">unique</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/juːˈniːk/</td>
+                    <td>độc đáo, độc nhất</td>
+                </tr>
+                <tr>
+                    <td class="word">vocal</td>
+                    <td class="pos">(adj)</td>
+                    <td class="ipa">/ˈvəʊ.kəl/</td>
+                    <td>thuộc về giọng hát</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

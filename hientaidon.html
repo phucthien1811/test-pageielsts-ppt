@@ -1,96 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IELTS TOLET - Chuyên Đề: The Present Simple (Full Lesson)</title>
+    
     <style>
+        
         /* --- Cài đặt Font chữ từ Google Fonts --- */
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Roboto:wght@400;700&display=swap');
 
-        /* --- Cài đặt chung cho toàn trang --- */
+        /* ========================================================= */
+        /* === PHẦN 1: CSS CHO GIAO DIỆN XEM TRÊN TRÌNH DUYỆT === */
+        /* ========================================================= */
         body {
-            background-color: #585858;
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 10px;
-            margin: 0;
-            color: #333;
-        }
-
-        /* --- Định dạng cho mỗi trang sách --- */
-        .book-page {
             font-family: 'Lora', serif;
-            background-color: #fdfaf3;
-            width: 800px;
-            min-height: 1150px;
-            padding: 60px 70px;
-            border: 1px solid #ccc;
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.3);
-            margin-bottom: 50px;
-            position: relative;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.7;
         }
 
-        /* --- Header và Footer của trang sách --- */
-        .page-header, .page-footer {
-            position: absolute;
-            width: calc(100% - 140px);
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            color: red;
+        .document-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
-        .page-header {
-            top: 25px;
+
+        .print-button-container {
             text-align: center;
-            font-weight: bold;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
+            margin-bottom: 30px;
         }
-        .page-footer {
-            bottom: 25px;
-            text-align: right;
-            border-top: 1px solid #ddd;
-            padding-top: 8px;
+
+        .print-button {
+            background-color: #c0392b;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .print-button:hover {
+            background-color: #a22416;
         }
 
         /* --- Các tiêu đề --- */
-        h1, h2, h3, h4 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            text-align: center;
-            color: #000;
-        }
-        h1 { font-size: 28px; margin-bottom: 5px; }
-        h2 { font-size: 24px; margin-bottom: 30px; border-bottom: 2px solid #555; padding-bottom: 10px; }
+        h1, h2, h3, h4 { font-family: 'Roboto', sans-serif; font-weight: 700; color: #000; }
+        h1 { font-size: 28px; margin-bottom: 5px; text-align: center; }
+        h2 { font-size: 24px; margin-top: 60px; margin-bottom: 30px; border-bottom: 2px solid #555; padding-bottom: 10px; text-align: center; }
         h3 { font-size: 22px; text-align: left; margin-top: 40px; margin-bottom: 20px; color: #a26d21; }
         h4 { font-size: 18px; text-align: left; margin-top: 25px; margin-bottom: 15px; font-style: normal; color: #34495e; border-left: 4px solid #a26d21; padding-left: 12px; }
         h5 { font-size: 16px; text-align: left; font-style: italic; color: #555;}
 
         /* --- Nội dung văn bản & Lý thuyết --- */
-        p, li {
-            font-size: 17px;
-            line-height: 1.8;
-            text-align: justify;
-        }
+        p, li { font-size: 17px; text-align: justify; }
         li { margin-bottom: 18px; }
         strong { color: #c0392b; }
-        em { color: #2980b9; font-style: italic; font-weight: bold; } /* Ví dụ */
+        em { color: #2980b9; font-style: italic; font-weight: bold; }
         code { background-color: #eee; padding: 2px 5px; border-radius: 3px; color: #d35400;}
         .theory-box { background-color: #f7f9fb; border: 1px solid #e1e8ed; padding: 20px; margin-top: 15px; border-radius: 5px; }
-
-        /* --- Hình ảnh và chú thích --- */
         .image-container { text-align: center; margin: 20px 0; }
-        .image-container img { max-width: 50%; height: auto; border: 5px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .image-container img { max-width: 60%; height: auto; border: 5px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .image-container figcaption { font-size: 14px; font-style: italic; color: #666; margin-top: 10px; }
         
         /* --- Định dạng bài tập --- */
         .exercise { margin-top: 20px; }
         .exercise ol { list-style-type: decimal; padding-left: 25px; }
-        .scrambled-words { font-style: italic; color: #555; background-color: #f0f0f0; padding: 5px 10px; border-radius: 4px; margin-bottom: 5px; }
+        .scrambled-words { font-style: italic; color: #555; background-color: #f0f0f0; padding: 5px 10px; border-radius: 4px; margin-bottom: 5px; display: block; }
         
-        /* --- CSS CHO Ô NHẬP LIỆU --- */
+        /* --- CSS CHO Ô NHẬP LIỆU (QUAN TRỌNG) --- */
         .blank-input, .answer-line-input {
             border: none;
             border-bottom: 1px solid #999;
@@ -103,34 +87,83 @@
             outline: none;
             transition: border-bottom 0.3s;
         }
-        
         .blank-input { width: 120px; margin: 0 5px; }
         .answer-line-input { width: 100%; margin-top: 5px; text-align: left; }
         .blank-input:focus, .answer-line-input:focus { border-bottom: 2px solid #a26d21; }
-        
-        /* --- Box sửa lỗi sai --- */
         .error-correction-box {
             width: 100%;
             min-height: 150px;
-            margin-top: 15px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: 'Lora', serif;
-            font-size: 17px;
-            line-height: 1.7;
+            margin-top: 15px; padding: 15px;
+            border: 1px solid #ddd; border-radius: 5px;
+            font-family: 'Lora', serif; font-size: 17px;
+            line-height: 1.7; resize: vertical;
         }
         .error-correction-box:focus { outline: 1px solid #a26d21; }
-
-        /* --- Bảng đáp án --- */
         #answer-key { background-color: #f5f5f5; border: 1px solid #ddd; padding: 20px; border-radius: 5px; margin-top: 30px; }
+
+
+        /* ================================================================== */
+        /* === PHẦN 2: CSS DÀNH RIÊNG CHO VIỆC IN RA PDF (PHÉP MÀU) === */
+        /* ================================================================== */
+        @media print {
+            body {
+                background-color: #fff;
+                font-size: 11pt; /* Giảm cỡ chữ một chút để vừa nhiều bài tập hơn */
+                line-height: 1.5;
+            }
+            .document-container { max-width: 100%; margin: 0; padding: 0; box-shadow: none; }
+
+            /* Ẩn nút "In tài liệu" khi in */
+            .print-button-container { display: none; }
+
+            h2 { page-break-before: always; }
+            h3, h4, h5 { page-break-after: avoid; }
+            .theory-box, .exercise, .image-container, li { page-break-inside: avoid; }
+            a { text-decoration: none; color: #000; }
+
+            /* BIẾN CÁC Ô INPUT THÀNH DÒNG KẺ */
+            .blank-input, .answer-line-input {
+                -webkit-appearance: none;
+                appearance: none;
+                border: none;
+                border-bottom: 1px dotted #333;
+                color: transparent;
+                text-align: left;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            .answer-line-input {
+                margin-top: 1.5em; /* Tăng khoảng trống để viết */
+            }
+
+            /* BIẾN TEXTAREA THÀNH KHUNG TRỐNG */
+            .error-correction-box {
+                border: 1px dotted #333;
+                background: #fff;
+                color: transparent;
+                min-height: 10em;
+            }
+        }
+
+        /* --- Cài đặt kích thước và lề trang giấy --- */
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        /* Thêm đoạn này vào cuối phần CSS của bạn */
+.exercise li {
+    text-align: left;
+}
 
     </style>
 </head>
 <body>
 
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
+    <div class="document-container">
+        <div class="print-button-container">
+            <button class="print-button" onclick="window.print()">🖨️ In tài liệu (Lưu thành PDF)</button>
+        </div>
+
         <h1>BÀI 1: CHUYÊN ĐỀ THÌ HIỆN TẠI ĐƠN</h1>
         <h2>THE PRESENT SIMPLE TENSE</h2>
         <h3>I. WARM-UP READING: A Vietnamese Music Icon</h3>
@@ -145,130 +178,56 @@
         <h3>II. COMPREHENSION QUESTIONS</h3>
         <div class="exercise">
             <ol>
-                <li>Where <strong>does</strong> Jack come from?</li>
-                <li>What kind of music <strong>does</strong> Jack often produce?</li>
-                <li>Why <strong>do</strong> many young people like his music?</li>
-                <li>(General Knowledge) Can you name one of Jack's most famous songs?</li>
-                <li>(General Knowledge) What <strong>does</strong> the number "97" in his stage name J97 likely represent?</li>
+                <li>Where does Jack come from?<input type="text" class="answer-line-input"></li>
+                <li>What kind of music does Jack often produce?<input type="text" class="answer-line-input"></li>
+                <li>Why do many young people like his music?<input type="text" class="answer-line-input"></li>
+                <li>(General Knowledge) Can you name one of Jack's most famous songs?<input type="text" class="answer-line-input"></li>
+                <li>(General Knowledge) What does the number "97" in his stage name J97 likely represent?<input type="text" class="answer-line-input"></li>
             </ol>
         </div>
-        <div class="page-footer">Trang 1</div>
-    </div>
 
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
         <h2>A. GRAMMAR THEORY: "TẤT TẦN TẬT" VỀ THÌ HIỆN TẠI ĐƠN</h2>
         <h3>1. Cách Dùng (Usage)</h3>
-        <p>Thì Hiện Tại Đơn được dùng để diễn tả các hành động, sự việc có tính chất chung, lặp đi lặp lại hoặc luôn luôn đúng.</p>
-        <div class="theory-box">
-            <ul>
-                <li>
-                    <strong>Diễn tả một thói quen, hành động lặp đi lặp lại ở hiện tại (Habits / Routines).</strong><br>
-                    Thường đi kèm với các trạng từ tần suất như <code>always</code>, <code>usually</code>, <code>often</code>, <code>sometimes</code>, <code>rarely</code>, <code>never</code>, <code>every day/week/month...</code><br>
-                    <em>Ví dụ: I <strong>get up</strong> at 6 AM every morning. / She often <strong>visits</strong> her grandparents on weekends.</em>
-                </li>
-                <li>
-                    <strong>Diễn tả một sự thật hiển nhiên, một chân lý không thay đổi (General Truths / Facts).</strong><br>
-                    <em>Ví dụ: The Earth <strong>revolves</strong> around the Sun. / Water <strong>boils</strong> at 100 degrees Celsius.</em>
-                </li>
-                <li>
-                    <strong>Diễn tả lịch trình, thời gian biểu (Schedules / Timetables).</strong><br>
-                    Thường dùng để nói về lịch trình của tàu, xe, máy bay, các lớp học, chương trình TV...<br>
-                    <em>Ví dụ: The train to Hanoi <strong>leaves</strong> at 8 PM. / The new semester <strong>starts</strong> next Monday.</em>
-                </li>
-                <li>
-                    <strong>Diễn tả cảm xúc, suy nghĩ, cảm nhận tại thời điểm nói (Feelings / Thoughts).</strong><br>
-                    Thường dùng với các động từ trạng thái (stative verbs) như <code>believe</code>, <code>think</code>, <code>understand</code>, <code>love</code>, <code>hate</code>, <code>know</code>, <code>need</code>, <code>want</code>...<br>
-                    <em>Ví dụ: He <strong>needs</strong> a new phone. / I <strong>don't understand</strong> this question.</em>
-                </li>
-                 <li>
-                    <strong>Dùng trong câu điều kiện loại 1 (Conditional Sentence Type 1).</strong><br>
-                    Mệnh đề "If" sẽ được chia ở thì Hiện Tại Đơn.<br>
-                    <em>Ví dụ: If it <strong>rains</strong>, we will stay at home.</em>
-                </li>
-            </ul>
-        </div>
-        <div class="page-footer">Trang 2</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
-        <h3>2. Cấu Trúc (Form)</h3>
-        <div class="theory-box">
-            <h4>a. Câu Khẳng Định (+)</h4>
-            <p>Đối với <code>I, You, We, They</code> và danh từ số nhiều, ta dùng động từ nguyên mẫu (V-inf).</p>
-            <p>Đối với <code>He, She, It</code> và danh từ số ít, ta thêm <strong>-s</strong> hoặc <strong>-es</strong> vào sau động từ.</p>
-            <code>S + V(s/es) + O</code><br>
-            <em>Ví dụ: They <strong>play</strong> football. / She <strong>plays</strong> tennis.</em>
-            
-            <h4>b. Câu Phủ Định (-)</h4>
-            <p>Ta mượn trợ động từ <code>do not (don't)</code> hoặc <code>does not (doesn't)</code>. Động từ chính luôn ở dạng nguyên mẫu.</p>
-            <code>S + do/does + not + V(inf) + O</code><br>
-            <em>Ví dụ: We <strong>don't watch</strong> TV. / He <strong>doesn't watch</strong> TV.</em>
-
-            <h4>c. Câu Nghi Vấn (?)</h4>
-            <p>Ta đảo trợ động từ <code>Do</code> hoặc <code>Does</code> lên đầu câu. Động từ chính luôn ở dạng nguyên mẫu.</p>
-            <code>Do/Does + S + V(inf) + O?</code><br>
-            <em>Ví dụ: <strong>Do</strong> you like coffee? / <strong>Does</strong> she like tea?</em>
-        </div>
-
-        <h3>3. Quy Tắc Thêm -S và -ES</h3>
         <div class="theory-box">
              <ul>
-                <li>Với hầu hết các động từ, ta chỉ cần thêm <code>-s</code>. <br><em>Ví dụ: work &rarr; <strong>works</strong>, read &rarr; <strong>reads</strong>, live &rarr; <strong>lives</strong>.</em></li>
-                <li>Với các động từ tận cùng bằng <code>-o, -s, -sh, -ch, -x, -z</code>, ta thêm <code>-es</code>.<br><em>Ví dụ: go &rarr; <strong>goes</strong>, miss &rarr; <strong>misses</strong>, wash &rarr; <strong>washes</strong>, watch &rarr; <strong>watches</strong>, fix &rarr; <strong>fixes</strong>, buzz &rarr; <strong>buzzes</strong>.</em></li>
-                <li>Với các động từ tận cùng bằng <code>phụ âm + y</code>, ta đổi <code>y</code> thành <code>i</code> rồi thêm <code>-es</code>.<br><em>Ví dụ: study &rarr; <strong>studies</strong>, try &rarr; <strong>tries</strong>, cry &rarr; <strong>cries</strong>.</em></li>
-                <li>Với các động từ tận cùng bằng <code>nguyên âm (a,e,i,o,u) + y</code>, ta chỉ cần thêm <code>-s</code>.<br><em>Ví dụ: play &rarr; <strong>plays</strong>, stay &rarr; <strong>stays</strong>, enjoy &rarr; <strong>enjoys</strong>.</em></li>
-                <li>Trường hợp đặc biệt: <code>have</code> &rarr; <strong>has</strong>.</li>
+                <li><strong>Diễn tả một thói quen, hành động lặp đi lặp lại ở hiện tại (Habits / Routines).</strong><br><em>Ví dụ: I <strong>get up</strong> at 6 AM every morning. / She often <strong>visits</strong> her grandparents on weekends.</em></li>
+                <li><strong>Diễn tả một sự thật hiển nhiên, một chân lý không thay đổi (General Truths / Facts).</strong><br><em>Ví dụ: The Earth <strong>revolves</strong> around the Sun.</em></li>
+                <li><strong>Diễn tả lịch trình, thời gian biểu (Schedules / Timetables).</strong><br><em>Ví dụ: The train to Hanoi <strong>leaves</strong> at 8 PM.</em></li>
+                <li><strong>Diễn tả cảm xúc, suy nghĩ, cảm nhận (Feelings / Thoughts).</strong><br><em>Ví dụ: He <strong>needs</strong> a new phone.</em></li>
+                <li><strong>Dùng trong câu điều kiện loại 1 (Conditional Sentence Type 1).</strong><br><em>Ví dụ: If it <strong>rains</strong>, we will stay at home.</em></li>
             </ul>
-        </div>
-        <div class="page-footer">Trang 3</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
-        <h3>4. Trạng Từ Tần Suất (Adverbs of Frequency)</h3>
-        <p>Đây là những từ dùng để chỉ mức độ thường xuyên của hành động.</p>
-        <div class="theory-box">
-             <h4>Vị trí của Trạng từ tần suất:</h4>
-             <ul>
-                 <li><strong>Đứng trước động từ thường:</strong> <code>S + adv + V(thường)</code><br><em>Ví dụ: She <strong>always</strong> <strong>remembers</strong> my birthday. / They <strong>rarely</strong> <strong>eat</strong> out.</em></li>
-                 <li><strong>Đứng sau động từ "to be":</strong> <code>S + am/is/are + adv</code><br><em>Ví dụ: He <strong>is</strong> <strong>never</strong> late for class. / I <strong>am</strong> <strong>usually</strong> tired after work.</em></li>
-             </ul>
         </div>
         
+        <h3>2. Cấu Trúc (Form) & Quy tắc thêm -S/-ES</h3>
+        <div class="theory-box">
+             <h4>a. Câu Khẳng Định (+): <code>S + V(s/es) + O</code></h4>
+             <h4>b. Câu Phủ Định (-): <code>S + do/does + not + V(inf) + O</code></h4>
+             <h4>c. Câu Nghi Vấn (?): <code>Do/Does + S + V(inf) + O?</code></h4>
+        </div>
+
         <h2>B. GRAMMAR EXERCISES</h2>
         <h3>I. Exercise: Adverb Placement</h3>
         <h5>Đặt trạng từ trong ngoặc vào đúng vị trí trong câu.</h5>
         <div class="exercise">
-            <ol>
-                <li>She listens to classical music. (rarely) <br><input type="text" class="answer-line-input"></li>
-                <li>He is late for his appointments. (never) <br><input type="text" class="answer-line-input"></li>
-                <li>They go to the beach in the summer. (often) <br><input type="text" class="answer-line-input"></li>
-                <li>The weather is bad in November. (usually) <br><input type="text" class="answer-line-input"></li>
-                <li>I drink coffee in the morning. (always) <br><input type="text" class="answer-line-input"></li>
-                <li>We are busy on Mondays. (sometimes) <br><input type="text" class="answer-line-input"></li>
-                <li>My brother helps me with my homework. (always) <br><input type="text" class="answer-line-input"></li>
-                <li>Peter gets angry. (hardly ever) <br><input type="text" class="answer-line-input"></li>
-                <li>He is a very punctual person. (usually) <br><input type="text" class="answer-line-input"></li>
-                <li>We eat meat. (seldom) <br><input type="text" class="answer-line-input"></li>
-                <li>The children are quiet. (never) <br><input type="text" class="answer-line-input"></li>
-                <li>I check my email after lunch. (often) <br><input type="text" class="answer-line-input"></li>
-                <li>They watch TV in the afternoon. (sometimes) <br><input type="text" class="answer-line-input"></li>
-                <li>She is happy with her results. (always) <br><input type="text" class="answer-line-input"></li>
-                <li>He forgets to do his chores. (often) <br><input type="text" class="answer-line-input"></li>
-                <li>My parents are at home in the evening. (usually) <br><input type="text" class="answer-line-input"></li>
-                <li>We go on holiday abroad. (rarely) <br><input type="text" class="answer-line-input"></li>
-                <li>It rains in this city. (hardly ever) <br><input type="text" class="answer-line-input"></li>
-                <li>I am the first to arrive at the office. (always) <br><input type="text" class="answer-line-input"></li>
-                <li>He complains about his job. (seldom) <br><input type="text" class="answer-line-input"></li>
+             <ol>
+                <li>She listens to classical music. (rarely) <input type="text" class="answer-line-input"></li>
+                <li>He is late for his appointments. (never) <input type="text" class="answer-line-input"></li>
+                <li>They go to the beach in the summer. (often) <input type="text" class="answer-line-input"></li>
+                <li>The weather is bad in November. (usually) <input type="text" class="answer-line-input"></li>
+                <li>I drink coffee in the morning. (always) <input type="text" class="answer-line-input"></li>
+                <li>We are busy on Mondays. (sometimes) <input type="text" class="answer-line-input"></li>
+                <li>My brother helps me with my homework. (always) <input type="text" class="answer-line-input"></li>
+                <li>Peter gets angry. (hardly ever) <input type="text" class="answer-line-input"></li>
+                <li>He is a very punctual person. (usually) <input type="text" class="answer-line-input"></li>
+                <li>We eat meat. (seldom) <input type="text" class="answer-line-input"></li>
+                <li>The children are quiet. (never) <input type="text" class="answer-line-input"></li>
+                <li>I check my email after lunch. (often) <input type="text" class="answer-line-input"></li>
+                <li>They watch TV in the afternoon. (sometimes) <input type="text" class="answer-line-input"></li>
+                <li>She is happy with her results. (always) <input type="text" class="answer-line-input"></li>
+                <li>He forgets to do his chores. (often) <input type="text" class="answer-line-input"></li>
             </ol>
         </div>
-        <div class="page-footer">Trang 4</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
+
         <h3>II. Exercise: Using -S / -ES Endings</h3>
         <h5>Hoàn thành câu với dạng đúng của động từ trong ngoặc.</h5>
         <div class="exercise">
@@ -288,18 +247,13 @@
                 <li>He (deny)<input type="text" class="blank-input"> all the accusations.</li>
                 <li>My sister (teach)<input type="text" class="blank-input"> English at a local school.</li>
                 <li>The postman (deliver)<input type="text" class="blank-input"> letters every day.</li>
-                <li>She (mix)<input type="text" class="blank-input"> all the ingredients together.</li>
-                <li>This company (produce)<input type="text" class="blank-input"> high-quality furniture.</li>
-                <li>My wife (worry)<input type="text" class="blank-input"> too much about me.</li>
-                <li>A bee (buzz)<input type="text" class="blank-input"> around the flowers.</li>
-                <li>He (pass)<input type="text" class="blank-input"> his exams with flying colors.</li>
             </ol>
         </div>
 
         <h3>III. Exercise: Using DO / DOES</h3>
         <h5>Điền vào chỗ trống với <code>do</code>, <code>don't</code>, <code>does</code>, hoặc <code>doesn't</code>.</h5>
         <div class="exercise">
-             <ol>
+            <ol>
                 <li>A: <input type="text" class="blank-input" style="width:60px;"> your sister live here? B: No, she <input type="text" class="blank-input" style="width:80px;">.</li>
                 <li>My parents <input type="text" class="blank-input"> like noisy parties.</li>
                 <li>What time <input type="text" class="blank-input"> the train usually arrive?</li>
@@ -310,23 +264,9 @@
                 <li>How much <input type="text" class="blank-input"> this book cost?</li>
                 <li>We <input type="text" class="blank-input"> want to go out tonight.</li>
                 <li>What <input type="text" class="blank-input"> your brother do for a living?</li>
-                <li>She <input type="text" class="blank-input"> speak French fluently.</li>
-                <li>Where <input type="text" class="blank-input"> your grandparents live?</li>
-                <li>He <input type="text" class="blank-input"> seem very happy today.</li>
-                <li><input type="text" class="blank-input"> you believe in ghosts?</li>
-                <li>My computer <input type="text" class="blank-input"> work properly.</li>
-                <li>What kind of music <input type="text" class="blank-input"> she listen to?</li>
-                <li>I <input type="text" class="blank-input"> understand this rule at all.</li>
-                <li>Why <input type="text" class="blank-input"> he always complain so much?</li>
-                <li><input type="text" class="blank-input"> we need to buy more milk?</li>
-                <li>The earth <input type="text" class="blank-input"> revolve around the moon. It revolves around the sun.</li>
             </ol>
         </div>
-        <div class="page-footer">Trang 5</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
+
         <h3>IV. Exercise: Sentence Scrambles</h3>
         <h5>Sắp xếp các từ để tạo thành câu đúng.</h5>
         <div class="exercise">
@@ -337,27 +277,9 @@
                 <li><p class="scrambled-words">music / I / listen to / when / I / work.</p><input type="text" class="answer-line-input"></li>
                 <li><p class="scrambled-words">the sun / in the east / rises / every morning.</p><input type="text" class="answer-line-input"></li>
                 <li><p class="scrambled-words">usually / my cat / on the sofa / sleeps.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">you / often / how / visit / your grandparents?</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">rarely / it / in the desert / rains.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">speak / fluently / my best friend / three languages.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">don't / on weekdays / we / watch TV.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">a shower / he / every morning / takes.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">to the library / go / how often / you / do?</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">doesn't / my sister / eat / fast food.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">at 7 AM / the post office / open / does?</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">like / children / playing / in the park.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">never / is / she / for her meetings / late.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">to work / my father / by bus / goes.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">don't / they / understand / the problem.</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">your English / you / want to / improve / do?</p><input type="text" class="answer-line-input"></li>
-                <li><p class="scrambled-words">the Earth / around the Sun / revolves.</p><input type="text" class="answer-line-input"></li>
             </ol>
         </div>
-        <div class="page-footer">Trang 6</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
+
         <h3>V. Exercise: Transformations</h3>
         <h5>Viết lại mỗi câu ở dạng Phủ định (Negative) và Nghi vấn (Interrogative).</h5>
         <div class="exercise">
@@ -366,29 +288,9 @@
                 <li><p>They live in a big house.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
                 <li><p>The shops close at 5 PM.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
                 <li><p>She understands the lesson.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>We have English classes on Monday.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>My mother works in a hospital.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>The students do their homework every day.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>He seems very confident.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>You speak English very well.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>This bus goes to the city center.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                <li><p>She teaches math at the university.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>They always arrive on time.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>He fixes cars for a living.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>We want to buy a new apartment.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>The sun sets in the west.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>You remember my name.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>Her cat sleeps all day.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>They often travel to Da Lat.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>I believe his story.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
-                 <li><p>The museum opens at 9 AM.</p><p>Neg:<input type="text" class="answer-line-input"></p><p>Int:<input type="text" class="answer-line-input"></p></li>
             </ol>
         </div>
-        <div class="page-footer">Trang 7</div>
-    </div>
-    
-    <div class="book-page">
-        <div class="page-header">IELTS ZIM SKIBIDI TOLET - English Grammar Series</div>
+
         <h3>VI. Exercise: Error Correction</h3>
         <h5>Tìm và sửa các lỗi sai trong đoạn văn sau. Viết lại đoạn văn đúng vào ô bên dưới.</h5>
         <div class="theory-box" style="background-color: #fff2f2;">
@@ -398,10 +300,16 @@
         
         <div id="answer-key">
             <h2>C. ANSWER KEY (ĐÁP ÁN)</h2>
-            </div>
-        <div class="page-footer">Trang 8</div>
+            <p>(Phần đáp án sẽ được giáo viên cung cấp hoặc có trong tài liệu bổ sung)</p>
+        </div>
+        
     </div>
-
 
 </body>
 </html>
+```
+
+    <script>
+        // Tự động focus vào ô nhập liệu đầu tiên khi tải trang
+        document.querySelector('.blank-input').focus();
+    </script>
