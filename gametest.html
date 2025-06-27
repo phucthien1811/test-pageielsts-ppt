@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Đoán Từ Tiếng Anh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .letter-box {
+            border-bottom: 3px solid #374151; /* gray-700 */
+            width: 40px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 5px;
+            text-transform: uppercase;
+        }
+        @media (min-width: 640px) {
+            .letter-box {
+                width: 60px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center">
+
+        <!-- Tiêu đề game -->
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Game Đoán Từ Vựng</h1>
+        <p class="text-gray-500 mb-8">Dựa vào gợi ý, hãy đoán xem từ Tiếng Anh đó là gì nhé!</p>
+
+        <!-- Khu vực gợi ý -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
+            <h2 class="font-bold mb-1">Gợi ý:</h2>
+            <p id="clue-text" class="text-lg">Gợi ý cho từ mới sẽ xuất hiện ở đây.</p>
+        </div>
+
+        <!-- Khu vực hiển thị từ cần đoán -->
+        <div id="word-container" class="flex justify-center items-center mb-8">
+            <!-- Các ô chữ sẽ được tạo bằng JavaScript -->
+        </div>
+
+        <!-- Khu vực nhập liệu và các nút -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+            <input type="text" id="guess-input" placeholder="Nhập từ bạn đoán..." class="w-full sm:w-auto flex-grow text-lg px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            <button id="guess-button" class="w-full sm:w-auto bg-blue-600 text-white font-bold text-lg px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 transform hover:scale-105 shadow-md">
+                Đoán
+            </button>
+        </div>
+        
+        <div class="flex items-center justify-center gap-4">
+             <button id="hint-button" class="bg-yellow-500 text-white font-bold px-6 py-2 rounded-lg hover:bg-yellow-600 transition-all duration-200 transform hover:scale-105">
+                Gợi ý 1 chữ cái
+            </button>
+            <button id="new-game-button" class="bg-gray-700 text-white font-bold px-6 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 transform hover:scale-105">
+                Chơi từ mới
+            </button>
+        </div>
+
+        <!-- Khu vực thông báo -->
+        <div id="message-container" class="mt-6 h-8 text-xl font-semibold">
+            <!-- Thông báo kết quả sẽ hiện ở đây -->
+        </div>
+
+    </div>
+
+    <script>
+        // --- DANH SÁCH TỪ VỰNG ---
+        // Bạn có thể dễ dàng thêm hoặc thay đổi các từ ở đây
+        const wordList = [
+            { word: "APPLE", clue: "Một loại trái cây màu đỏ hoặc xanh, hay xuất hiện trong các câu chuyện." },
+            { word: "TIGER", clue: "Một loài mèo lớn có vằn, là chúa tể sơn lâm." },
+            { word: "OCEAN", clue: "Vùng nước mặn khổng lồ bao phủ phần lớn Trái Đất." },
+            { word: "GUITAR", clue: "Một loại nhạc cụ có sáu dây, thường dùng để đệm hát." },
+            { word: "PLANET", clue: "Một thiên thể lớn quay quanh một ngôi sao, ví dụ như Trái Đất." },
+            { word: "SCHOOL", clue: "Nơi học sinh đến để học tập và vui chơi." },
+            { word: "SUMMER", clue: "Mùa nóng nhất trong năm, có nhiều trái cây và các kỳ nghỉ." },
+            { word: "BICYCLE", clue: "Một phương tiện có hai bánh, di chuyển bằng sức người." }
+        ];
+
+        // --- LẤY CÁC PHẦN TỬ HTML ---
+        const clueText = document.getElementById('clue-text');
+        const wordContainer = document.getElementById('word-container');
+        const guessInput = document.getElementById('guess-input');
+        const guessButton = document.getElementById('guess-button');
+        const hintButton = document.getElementById('hint-button');
+        const newGameButton = document.getElementById('new-game-button');
+        const messageContainer = document.getElementById('message-container');
+
+        // --- BIẾN TRẠNG THÁI CỦA GAME ---
+        let currentWordData = {};
+        let displayedLetters = [];
+        let gameActive = true;
+
+        // --- CÁC HÀM XỬ LÝ GAME ---
+
+        /**
+         * Bắt đầu một lượt chơi mới
+         */
+        function newGame() {
+            // Chọn một từ ngẫu nhiên từ danh sách
+            const randomIndex = Math.floor(Math.random() * wordList.length);
+            currentWordData = wordList[randomIndex];
+
+            // Reset các trạng thái
+            gameActive = true;
+            displayedLetters = Array(currentWordData.word.length).fill('_');
+            
+            // Cập nhật giao diện
+            clueText.textContent = currentWordData.clue;
+            messageContainer.textContent = '';
+            messageContainer.className = 'mt-6 h-8 text-xl font-semibold'; // Reset class
+            guessInput.value = '';
+            guessInput.disabled = false;
+            guessButton.disabled = false;
+            hintButton.disabled = false;
+            
+            renderWordDisplay();
+        }
+
+        /**
+         * Hiển thị các ô chữ lên màn hình
+         */
+        function renderWordDisplay() {
+            wordContainer.innerHTML = '';
+            displayedLetters.forEach(letter => {
+                const letterBox = document.createElement('div');
+                letterBox.className = 'letter-box';
+                letterBox.textContent = letter === '_' ? '' : letter;
+                wordContainer.appendChild(letterBox);
+            });
+        }
+
+        /**
+         * Xử lý khi người dùng đoán
+         */
+        function handleGuess() {
+            if (!gameActive) return;
+
+            const userGuess = guessInput.value.trim().toUpperCase();
+            if (userGuess.length === 0) return;
+
+            if (userGuess === currentWordData.word) {
+                // Đoán đúng
+                messageContainer.textContent = 'Chính xác! Bạn giỏi quá!';
+                messageContainer.className += ' text-green-600';
+                displayedLetters = currentWordData.word.split('');
+                endGame();
+            } else {
+                // Đoán sai
+                messageContainer.textContent = 'Chưa đúng rồi, thử lại nào!';
+                messageContainer.className += ' text-red-600';
+                // Xóa thông báo sau 2 giây
+                setTimeout(() => {
+                    if (messageContainer.textContent === 'Chưa đúng rồi, thử lại nào!') {
+                        messageContainer.textContent = '';
+                    }
+                }, 2000);
+            }
+            guessInput.value = '';
+        }
+        
+        /**
+         * Xử lý khi người dùng cần gợi ý
+         */
+        function handleHint() {
+            if (!gameActive) return;
+
+            // Tìm các vị trí chưa được tiết lộ
+            const hiddenIndices = [];
+            for (let i = 0; i < displayedLetters.length; i++) {
+                if (displayedLetters[i] === '_') {
+                    hiddenIndices.push(i);
+                }
+            }
+
+            if (hiddenIndices.length > 0) {
+                // Chọn ngẫu nhiên một vị trí để hiển thị
+                const randomIndex = hiddenIndices[Math.floor(Math.random() * hiddenIndices.length)];
+                displayedLetters[randomIndex] = currentWordData.word[randomIndex];
+                renderWordDisplay();
+            }
+            
+            // Nếu tất cả các chữ đã được gợi ý, vô hiệu hóa nút
+            if (displayedLetters.join('') === currentWordData.word) {
+                 messageContainer.textContent = `Từ đúng là: ${currentWordData.word}`;
+                 messageContainer.className += ' text-blue-600';
+                 endGame();
+            }
+        }
+
+        /**
+         * Kết thúc lượt chơi
+         */
+        function endGame() {
+            gameActive = false;
+            guessInput.disabled = true;
+            guessButton.disabled = true;
+            hintButton.disabled = true;
+            renderWordDisplay();
+        }
+
+
+        // --- GÁN SỰ KIỆN CHO CÁC NÚT ---
+        guessButton.addEventListener('click', handleGuess);
+        newGameButton.addEventListener('click', newGame);
+        hintButton.addEventListener('click', handleHint);
+
+        // Cho phép nhấn Enter để đoán
+        guessInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleGuess();
+            }
+        });
+
+        // --- BẮT ĐẦU GAME KHI TẢI TRANG ---
+        window.onload = newGame;
+    </script>
+</body>
+</html>
