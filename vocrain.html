@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Mưa Từ Vựng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        .game-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+        #game-screen {
+            background: linear-gradient(to bottom, #87ceeb, #f0f9ff);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #374151;
+            border-radius: 1rem;
+        }
+        .falling-word {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #60a5fa;
+        }
+        #start-screen, #game-over-screen {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen">
+
+    <div id="game-container" class="w-full max-w-3xl">
+        <!-- Thông tin game -->
+        <div class="flex justify-between items-center mb-4 px-2 text-white">
+            <div class="game-font text-2xl">Score: <span id="score">0</span></div>
+            <div class="game-font text-2xl">Lives: <span id="lives" class="text-red-400">❤️❤️❤️</span></div>
+        </div>
+
+        <!-- Màn hình game -->
+        <div id="game-screen" class="w-full h-[60vh] md:h-[70vh]">
+            <!-- Màn hình bắt đầu -->
+            <div id="start-screen">
+                <h1 class="game-font text-4xl md:text-5xl mb-4 text-yellow-300">Mưa Từ Vựng</h1>
+                <p class="mb-8 text-lg">Gõ đúng từ Tiếng Anh tương ứng với gợi ý rơi xuống. <br>Hãy cứu lấy chúng trước khi chạm đất!</p>
+                <button id="start-button" class="game-font bg-green-500 text-white px-10 py-5 rounded-lg text-2xl hover:bg-green-600 transition-transform transform hover:scale-110">Start</button>
+            </div>
+            <!-- Màn hình kết thúc -->
+            <div id="game-over-screen" class="hidden">
+                 <h1 class="game-font text-4xl md:text-5xl mb-4 text-red-500">Game Over</h1>
+                 <p class="text-2xl mb-2 game-font">Final Score</p>
+                 <p id="final-score" class="text-6xl mb-8 game-font text-yellow-300">0</p>
+                 <button id="restart-button" class="game-font bg-blue-500 text-white px-10 py-5 rounded-lg text-2xl hover:bg-blue-600 transition-transform transform hover:scale-110">Restart</button>
+            </div>
+        </div>
+
+        <!-- Khu vực nhập liệu -->
+        <div class="mt-4">
+            <input type="text" id="input-box" placeholder="Gõ từ vào đây và nhấn Enter..." class="w-full text-2xl p-4 rounded-lg border-4 border-gray-600 bg-gray-200 text-center focus:outline-none focus:ring-4 focus:ring-yellow-400" disabled>
+        </div>
+    </div>
+
+    <script>
+        // --- DANH SÁCH TỪ VỰNG ---
+        const wordList = [
+            { word: "APPLE", clue: "Một loại trái cây" },
+            { word: "TIGER", clue: "Chúa tể sơn lâm" },
+            { word: "OCEAN", clue: "Đại dương xanh" },
+            { word: "GUITAR", clue: "Nhạc cụ 6 dây" },
+            { word: "PLANET", clue: "Hành tinh trong vũ trụ" },
+            { word: "SCHOOL", clue: "Nơi để học tập" },
+            { word: "SUMMER", clue: "Mùa nóng nhất" },
+            { word: "BICYCLE", clue: "Xe hai bánh" },
+            { word: "COMPUTER", clue: "Máy vi tính" },
+            { word: "LIBRARY", clue: "Nơi có nhiều sách" },
+            { word: "WEATHER", clue: "Thời tiết" },
+            { word: "MONEY", clue: "Tiền bạc" },
+            { word: "WATER", clue: "Nước uống" },
+        ];
+
+        // --- LẤY CÁC PHẦN TỬ HTML ---
+        const gameScreen = document.getElementById('game-screen');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplay = document.getElementById('lives');
+        const inputBox = document.getElementById('input-box');
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const startButton = document.getElementById('start-button');
+        const restartButton = document.getElementById('restart-button');
+        const finalScoreDisplay = document.getElementById('final-score');
+
+        // --- CÀI ĐẶT GAME ---
+        let score = 0;
+        let lives = 3;
+        let gameSpeed = 1;
+        let fallingWords = [];
+        let gameInterval;
+        let wordGenerationInterval;
+        let gameActive = false;
+
+        // --- CÁC HÀM XỬ LÝ GAME ---
+
+        function startGame() {
+            gameActive = true;
+            score = 0;
+            lives = 3;
+            gameSpeed = 1;
+            fallingWords = [];
+            
+            scoreDisplay.textContent = score;
+            updateLivesDisplay();
+            
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            gameScreen.innerHTML = ''; // Xóa các từ cũ
+            
+            inputBox.disabled = false;
+            inputBox.focus();
+            
+            gameInterval = setInterval(gameLoop, 16); // ~60 FPS
+            wordGenerationInterval = setInterval(createWord, 2000);
+        }
+
+        function gameLoop() {
+            if (!gameActive) return;
+
+            // Di chuyển các từ
+            fallingWords.forEach((wordObj, index) => {
+                wordObj.y += gameSpeed;
+                wordObj.element.style.top = `${wordObj.y}px`;
+
+                // Kiểm tra nếu từ chạm đất
+                if (wordObj.y > gameScreen.clientHeight) {
+                    removeWord(index, false); // Xóa từ và trừ mạng
+                }
+            });
+        }
+
+        function createWord() {
+            if (!gameActive) return;
+
+            const wordData = wordList[Math.floor(Math.random() * wordList.length)];
+            
+            const wordElement = document.createElement('div');
+            wordElement.className = 'falling-word';
+            wordElement.textContent = wordData.clue;
+            
+            // Đảm bảo từ không bị tràn ra ngoài màn hình
+            const screenWidth = gameScreen.clientWidth;
+            // Ước tính chiều rộng của từ để nó không bị tràn viền
+            const estimatedWidth = wordData.clue.length * 12 + 32; 
+            const maxLeft = screenWidth - estimatedWidth;
+            const randomLeft = Math.max(0, Math.floor(Math.random() * maxLeft));
+
+            wordElement.style.left = `${randomLeft}px`;
+            wordElement.style.top = `-40px`; // Bắt đầu từ trên màn hình
+            
+            gameScreen.appendChild(wordElement);
+
+            fallingWords.push({
+                element: wordElement,
+                word: wordData.word,
+                y: -40
+            });
+        }
+
+        function removeWord(index, guessedCorrectly) {
+            const wordObj = fallingWords[index];
+            if (!wordObj) return;
+
+            wordObj.element.remove();
+            fallingWords.splice(index, 1);
+
+            if (!guessedCorrectly) {
+                lives--;
+                updateLivesDisplay();
+                if (lives <= 0) {
+                    endGame();
+                }
+            }
+        }
+
+        function updateLivesDisplay() {
+            livesDisplay.innerHTML = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+        }
+
+        function handleInput(event) {
+            if (event.key !== 'Enter' || !gameActive) return;
+
+            const typedWord = inputBox.value.trim().toUpperCase();
+            if (!typedWord) return;
+
+            let found = false;
+            for (let i = fallingWords.length - 1; i >= 0; i--) {
+                if (fallingWords[i].word === typedWord) {
+                    removeWord(i, true);
+                    score += 10;
+                    scoreDisplay.textContent = score;
+                    found = true;
+                    // Tăng tốc độ game sau mỗi 50 điểm
+                    if (score > 0 && score % 50 === 0) {
+                        gameSpeed += 0.2;
+                        // Giảm thời gian tạo từ mới
+                        clearInterval(wordGenerationInterval);
+                        wordGenerationInterval = setInterval(createWord, Math.max(500, 2000 - (score/50)*100));
+                    }
+                    break; // Chỉ xóa một từ mỗi lần gõ
+                }
+            }
+            
+            if (found) {
+                // Hiệu ứng khi gõ đúng
+                inputBox.style.backgroundColor = '#dcfce7'; // green-100
+                setTimeout(() => { inputBox.style.backgroundColor = '#e5e7eb'; }, 200);
+            } else {
+                // Hiệu ứng khi gõ sai
+                inputBox.style.backgroundColor = '#fee2e2'; // red-100
+                setTimeout(() => { inputBox.style.backgroundColor = '#e5e7eb'; }, 200);
+            }
+
+            inputBox.value = '';
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameInterval);
+            clearInterval(wordGenerationInterval);
+            inputBox.disabled = true;
+            inputBox.value = '';
+            
+            finalScoreDisplay.textContent = score;
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        // --- GÁN SỰ KIỆN ---
+        startButton.addEventListener('click', startGame);
+        restartButton.addEventListener('click', startGame);
+        inputBox.addEventListener('keydown', handleInput);
+
+    </script>
+</body>
+</html>
