@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hangman - Người Treo Cổ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* A slightly different gray for a fresh look */
+        }
+        .letter-box {
+            border-bottom: 4px solid #4b5563; /* gray-600 */
+            width: 40px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.25rem; /* 36px */
+            font-weight: 700;
+            margin: 0 4px;
+            text-transform: uppercase;
+            color: #1f2937; /* gray-800 */
+            transition: all 0.3s ease;
+        }
+        .keyboard-btn {
+            transition: all 0.2s ease;
+            box-shadow: 0 4px #9ca3af; /* gray-400 */
+        }
+        .keyboard-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #9ca3af;
+        }
+        .keyboard-btn.correct {
+            background-color: #22c55e !important; /* green-500 */
+            color: white;
+            box-shadow: 0 4px #16a34a; /* green-600 */
+        }
+        .keyboard-btn.wrong {
+            background-color: #ef4444 !important; /* red-500 */
+            color: white;
+            box-shadow: 0 4px #b91c1c; /* red-700 */
+            cursor: not-allowed;
+        }
+        #hangman-canvas {
+            width: 200px;
+            height: 250px;
+        }
+         /* Modal styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 50;
+        }
+        .modal-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-backdrop.show .modal-content {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-xl">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            
+            <!-- Cột bên trái: Hình treo cổ -->
+            <div class="flex flex-col items-center justify-center">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Người Treo Cổ</h1>
+                <canvas id="hangman-canvas"></canvas>
+            </div>
+
+            <!-- Cột bên phải: Game play -->
+            <div class="text-center">
+                <!-- Khu vực gợi ý -->
+                <div class="bg-blue-100 border-t-4 border-blue-500 text-blue-800 p-4 rounded-b-lg shadow-md mb-6">
+                    <p id="clue-text" class="text-lg font-medium">Gợi ý sẽ xuất hiện ở đây.</p>
+                </div>
+
+                <!-- Khu vực hiển thị từ cần đoán -->
+                <div id="word-container" class="flex justify-center flex-wrap items-center mb-6 min-h-[60px]">
+                    <!-- Các ô chữ sẽ được tạo bằng JavaScript -->
+                </div>
+                
+                <!-- Bàn phím ảo -->
+                <div id="keyboard-container" class="flex flex-wrap justify-center gap-2 max-w-md mx-auto">
+                    <!-- Các nút bàn phím sẽ được tạo bằng JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal thông báo kết quả -->
+    <div id="result-modal" class="modal-backdrop">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 text-center w-11/12 max-w-md">
+            <h2 id="modal-title" class="text-4xl font-bold mb-4">Bạn đã thắng!</h2>
+            <p id="modal-message" class="text-gray-600 text-lg mb-2">Từ đúng là:</p>
+            <p id="modal-word" class="text-3xl font-bold text-blue-600 tracking-widest mb-8"></p>
+            <button id="play-again-button" class="w-full bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-200 transform hover:scale-105 shadow-md">
+                Chơi lại
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DANH SÁCH TỪ VỰNG ---
+        const wordList = [
+            { word: "APPLE", clue: "Một loại trái cây màu đỏ hoặc xanh." },
+            { word: "TIGER", clue: "Loài mèo lớn có vằn, là chúa tể sơn lâm." },
+            { word: "OCEAN", clue: "Vùng nước mặn khổng lồ bao phủ Trái Đất." },
+            { word: "GUITAR", clue: "Nhạc cụ có sáu dây, dùng để đệm hát." },
+            { word: "PLANET", clue: "Thiên thể lớn quay quanh một ngôi sao." },
+            { word: "SCHOOL", clue: "Nơi học sinh đến để học tập." },
+            { word: "SUMMER", clue: "Mùa nóng nhất trong năm, có nhiều kỳ nghỉ." },
+            { word: "BICYCLE", clue: "Phương tiện hai bánh, di chuyển bằng sức người." },
+            { word: "COMPUTER", clue: "Thiết bị điện tử dùng để xử lý thông tin." },
+            { word: "LIBRARY", clue: "Nơi chứa rất nhiều sách để đọc và mượn." }
+        ];
+
+        // --- CÀI ĐẶT GAME ---
+        const MAX_WRONG_GUESSES = 6;
+        const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // --- LẤY CÁC PHẦN TỬ HTML ---
+        const clueText = document.getElementById('clue-text');
+        const wordContainer = document.getElementById('word-container');
+        const keyboardContainer = document.getElementById('keyboard-container');
+        const canvas = document.getElementById('hangman-canvas');
+        const ctx = canvas.getContext('2d');
+        const resultModal = document.getElementById('result-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalWord = document.getElementById('modal-word');
+        const playAgainButton = document.getElementById('play-again-button');
+
+        // --- BIẾN TRẠNG THÁI CỦA GAME ---
+        let currentWord = '';
+        let currentClue = '';
+        let guessedLetters = [];
+        let wrongGuesses = 0;
+
+        // --- CÁC HÀM VẼ ---
+        function drawHangmanPart(part) {
+            ctx.strokeStyle = '#1f2937'; // gray-800
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+
+            switch (part) {
+                case 1: // Giá treo (cọc đứng)
+                    ctx.moveTo(40, 230);
+                    ctx.lineTo(40, 20);
+                    ctx.lineTo(120, 20);
+                    ctx.lineTo(120, 50);
+                    break;
+                case 2: // Đầu
+                    ctx.arc(120, 70, 20, 0, Math.PI * 2);
+                    break;
+                case 3: // Thân
+                    ctx.moveTo(120, 90);
+                    ctx.lineTo(120, 160);
+                    break;
+                case 4: // Tay phải
+                    ctx.moveTo(120, 110);
+                    ctx.lineTo(160, 130);
+                    break;
+                case 5: // Tay trái
+                    ctx.moveTo(120, 110);
+                    ctx.lineTo(80, 130);
+                    break;
+                case 6: // Chân phải
+                    ctx.moveTo(120, 160);
+                    ctx.lineTo(150, 200);
+                    break;
+                case 7: // Chân trái
+                    ctx.moveTo(120, 160);
+                    ctx.lineTo(90, 200);
+                    break;
+            }
+            ctx.stroke();
+        }
+
+        function drawGallows() {
+            // Scale canvas for high-density displays
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#4b5563'; // gray-600
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(20, 230);
+            ctx.lineTo(180, 230); // Nền đất
+            ctx.stroke();
+        }
+        
+        // --- CÁC HÀM XỬ LÝ GAME ---
+        function newGame() {
+            const { word, clue } = wordList[Math.floor(Math.random() * wordList.length)];
+            currentWord = word;
+            currentClue = clue;
+            guessedLetters = [];
+            wrongGuesses = 0;
+
+            clueText.textContent = currentClue;
+            drawGallows();
+            renderWordDisplay();
+            renderKeyboard();
+            hideModal();
+        }
+
+        function renderWordDisplay() {
+            wordContainer.innerHTML = '';
+            currentWord.split('').forEach(letter => {
+                const letterBox = document.createElement('div');
+                letterBox.className = 'letter-box';
+                letterBox.textContent = guessedLetters.includes(letter) ? letter : '';
+                wordContainer.appendChild(letterBox);
+            });
+        }
+        
+        function renderKeyboard() {
+            keyboardContainer.innerHTML = '';
+            ALPHABET.split('').forEach(letter => {
+                const btn = document.createElement('button');
+                btn.textContent = letter;
+                btn.className = 'keyboard-btn w-10 h-12 sm:w-12 sm:h-14 rounded-lg bg-gray-200 font-bold text-gray-700 text-lg';
+                btn.onclick = () => handleGuess(letter);
+                keyboardContainer.appendChild(btn);
+            });
+        }
+
+        function handleGuess(letter) {
+            if (guessedLetters.includes(letter) || wrongGuesses >= MAX_WRONG_GUESSES) return;
+
+            guessedLetters.push(letter);
+            const button = Array.from(keyboardContainer.children).find(btn => btn.textContent === letter);
+            
+            if (currentWord.includes(letter)) {
+                button.classList.add('correct');
+            } else {
+                wrongGuesses++;
+                button.classList.add('wrong');
+                // Vẽ bộ phận tương ứng với số lần sai
+                // Chúng ta vẽ từ 1 đến 6, nhưng người que có 7 bộ phận, nên sẽ vẽ 2 bộ phận cuối cùng 1 lúc
+                if (wrongGuesses <= 5) {
+                    drawHangmanPart(wrongGuesses);
+                } else if (wrongGuesses === 6) {
+                    drawHangmanPart(6); // Chân phải
+                    drawHangmanPart(7); // Chân trái
+                }
+            }
+            
+            button.disabled = true;
+            renderWordDisplay();
+            checkGameStatus();
+        }
+        
+        function checkGameStatus() {
+            const isWinner = currentWord.split('').every(letter => guessedLetters.includes(letter));
+            
+            if (isWinner) {
+                setTimeout(() => showModal(true), 500);
+            } else if (wrongGuesses >= MAX_WRONG_GUESSES) {
+                setTimeout(() => showModal(false), 500);
+            }
+        }
+
+        function showModal(isWin) {
+            if (isWin) {
+                modalTitle.textContent = '🎉 Bạn đã thắng! 🎉';
+                modalTitle.className = 'text-4xl font-bold mb-4 text-green-500';
+            } else {
+                modalTitle.textContent = '😢 Game Over 😢';
+                modalTitle.className = 'text-4xl font-bold mb-4 text-red-500';
+            }
+            modalWord.textContent = currentWord;
+            resultModal.classList.add('show');
+        }
+
+        function hideModal() {
+            resultModal.classList.remove('show');
+        }
+
+        // --- GÁN SỰ KIỆN ---
+        playAgainButton.addEventListener('click', newGame);
+        
+        // --- BẮT ĐẦU GAME ---
+        window.onload = newGame;
+    </script>
+</body>
+</html>
